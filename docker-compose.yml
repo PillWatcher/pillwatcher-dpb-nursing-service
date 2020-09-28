@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  app:
+    image: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+  db:
+    container_name: db
+    image: mysql/mysql-server:5.7
+    environment:
+      MYSQL_USER: dpb
+      MYSQL_DATABASE: dpb
+      MYSQL_ROOT_PASSWORD: tdrfFj/YjxBKD2*T
+      MYSQL_PASSWORD: tdrfFj/YjxBKD2*T
+    ports:
+      - "3306:3306"
+    volumes:
+      - dpb-volume:/opt/mysql_data
+
+volumes:
+  dpb-volume:

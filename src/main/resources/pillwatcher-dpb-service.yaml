@@ -1,0 +1,46 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Pillwatcher DPB Service
+  description: Pillwatcher Dispenser Backend Service
+host: api.k8s
+basePath: /pillwatcher-dpb/v1
+schemes:
+  - http
+tags:
+  - name: Patients
+paths:
+  '/patients':
+    get:
+      description: Get all Patients
+      summary: Get all Patients
+      operationId: GetPatients
+      tags:
+        - Patients
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 'Campaign info'
+          schema:
+            $ref: '#/definitions/PatientDTO'
+definitions:
+  PatientDTO:
+    type: 'object'
+    description: 'Structure used to return of campaign information'
+    required:
+      - patientName
+      - lastname
+    properties:
+      patientName:
+        description: 'Patient Name'
+        example: 'Jose'
+        type: string
+        minLength: 5
+        maxLength: 50
+      lastName:
+        description: 'Patient Last Name'
+        example: 'Maria'
+        type: string
+        minLength: 5
+        maxLength: 50
