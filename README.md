@@ -1,6 +1,6 @@
 # Dispenser Backend Patient Service (DPB) - Pillwatcher ![](https://travis-ci.com/PillWatcher/-pillwatcher-dpb-nursing-service-.svg?branch=master)
 
-<img src="https://sonarcloud.io/api/project_badges/measure?project=PillWatcher_pillwatcher-dpb-nursing-service&metric=alert_status" align="right"
+<img src="https://sonarcloud.io/api/project_badges/quality_gate?project=PillWatcher_pillwatcher-dpb-nursing-service" align="right"
      alt="Sonar Cloud Quality Gate Status" width="120" height="178">
 
 DPB Service is an API aimed at feeding any patient's Medication and Prescription control platforms. It can be consumed by both mobile and electronic components.
