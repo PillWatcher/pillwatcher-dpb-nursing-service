@@ -1,0 +1,28 @@
+dist: trusty
+language: java
+jdk:
+  - oraclejdk8
+
+addons:
+  sonarcloud:
+    organization: "pillwatcher-dpb-service"
+    token: ${SONAR_TOKEN}
+
+stages:
+  - Build
+  - Test
+  - SonarQube Analysis
+
+jobs:
+  include:
+  - stage: Build
+    script: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  - stage: Test
+    script: mvn test
+  - stage: SonarQube Analysis
+    script: mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=PillWatcher_pillwatcher-dpb-nursing-service
+
+cache:
+  directories:
+  - $HOME/.m2
+  - $HOME/.sonar/cache
