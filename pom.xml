@@ -11,8 +11,8 @@
 	<groupId>br.com.pillwatcher</groupId>
 	<artifactId>dpb</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>dpb</name>
-	<description>Pill Dispenser Service</description>
+	<name>pillwatcher-dpb-nursing-service</name>
+	<description>PillWatcher Dispenser Nursing Service</description>
 
 	<properties>
 		<google-guava.version>29.0-jre</google-guava.version>
