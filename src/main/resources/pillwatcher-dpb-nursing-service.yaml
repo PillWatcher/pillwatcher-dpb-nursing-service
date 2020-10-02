@@ -95,8 +95,8 @@ definitions:
         type: string
       coren:
         description: 'Nurse Coren'
-        example: 123456
-        type: number
+        example: '123456'
+        type: string
       federativeUnit:
         description: 'FU Coren'
         example: 'DF'
@@ -135,8 +135,8 @@ definitions:
         type: string
       coren:
         description: 'Nurse Coren'
-        example: 123456
-        type: number
+        example: '123456'
+        type: string
       federativeUnit:
         description: 'FU Coren'
         example: 'DF'
@@ -154,7 +154,7 @@ definitions:
     type: string
     enum:
       - ACCESS_DENIED
-      - ADMIN_ALREADY_EXISTS
+      - NURSE_ALREADY_EXISTS
       - INVALID_PARAMETER
       - TOO_MANY_REQUESTS
       - UNEXPECTED_ERROR
