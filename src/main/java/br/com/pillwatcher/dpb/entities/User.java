@@ -29,7 +29,7 @@ public class User {
     private Long id;
 
     @CPF
-    @Column(name = "DOCUMENT", nullable = false)
+    @Column(name = "DOCUMENT", nullable = false, unique = true)
     private String document;
 
     @Column(name = "IMAGE_URL")

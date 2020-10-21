@@ -31,15 +31,37 @@ public class NurseServiceImpl implements NurseService {
         log.info("NurseServiceImpl.create - Start - Input {}", nurseDTOForCreate);
 
         Optional<Nurse> byEmail = nurseRepository.findByEmail(nurseDTOForCreate.getEmail());
+        Optional<Nurse> byUserDocument = nurseRepository.findByUserDocument(nurseDTOForCreate.getDocument());
 
         if (byEmail.isPresent()) {
-            log.warn(ValidationConstraints.NURSE_ALREADY_EXISTS, nurseDTOForCreate.getEmail());
+            log.warn(ValidationConstraints.NURSE_WITH_EMAIL_ALREADY_EXISTS, nurseDTOForCreate.getEmail());
             throw new NurseException(ErrorCodeEnum.NURSE_ALREADY_EXISTS, ErrorMessages.CONFLICT,
-                    StringUtils.replace(ValidationConstraints.NURSE_ALREADY_EXISTS, "{}", nurseDTOForCreate.getEmail()));
+                    StringUtils.replace(ValidationConstraints.NURSE_WITH_EMAIL_ALREADY_EXISTS, "{}", nurseDTOForCreate.getEmail()));
+        }
+
+        if (byUserDocument.isPresent()) {
+            log.warn(ValidationConstraints.NURSE_WITH_DOCUMENT_ALREADY_EXISTS, nurseDTOForCreate.getEmail());
+            throw new NurseException(ErrorCodeEnum.NURSE_ALREADY_EXISTS, ErrorMessages.CONFLICT,
+                    StringUtils.replace(ValidationConstraints.NURSE_WITH_DOCUMENT_ALREADY_EXISTS, "{}", nurseDTOForCreate.getDocument()));
         }
 
         Nurse nurse = nurseMapper.dtoToEntity(nurseDTOForCreate);
         return nurseMapper.entityToDto(nurseRepository.save(nurse));
+    }
+
+    @Override
+    public NurseDTOForResponse get(final String cpf) {
+
+        log.info("NurseServiceImpl.get - Start - Input {}", cpf);
+
+        Optional<Nurse> byUserDocument = nurseRepository.findByUserDocument(cpf);
+
+        if (!byUserDocument.isPresent()) {
+            log.warn(ValidationConstraints.NURSE_NOT_FOUND, cpf);
+            throw new NurseException(ErrorCodeEnum.NOT_FOUND, ErrorMessages.NOT_FOUND,
+                    StringUtils.replace(ValidationConstraints.NURSE_NOT_FOUND, "{}", cpf));
+        }
+        return nurseMapper.entityToDto(byUserDocument.get());
     }
 
 }

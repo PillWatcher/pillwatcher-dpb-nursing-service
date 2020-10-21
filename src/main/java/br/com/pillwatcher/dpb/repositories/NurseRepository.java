@@ -9,4 +9,6 @@ public interface NurseRepository extends JpaRepository<Nurse, Long> {
 
     Optional<Nurse> findByEmail(final String email);
 
+    Optional<Nurse> findByUserDocument(final String document);
+
 }

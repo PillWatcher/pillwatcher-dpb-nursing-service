@@ -5,6 +5,11 @@ import io.swagger.model.NurseDTOForResponse;
 
 public interface NurseService {
 
-    public NurseDTOForResponse create(final NurseDTOForCreate nurseDTOForCreate);
+    NurseDTOForResponse create(final NurseDTOForCreate nurseDTOForCreate);
+
+    NurseDTOForResponse get(final String cpf);
+
+//    NurseDTOForResponse update(final String cpf);
+
 
 }
