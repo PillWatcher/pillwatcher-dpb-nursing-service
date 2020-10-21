@@ -3,8 +3,11 @@ package br.com.pillwatcher.dpb.mappers;
 import br.com.pillwatcher.dpb.entities.Nurse;
 import io.swagger.model.NurseDTOForCreate;
 import io.swagger.model.NurseDTOForResponse;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface NurseMapper {
@@ -18,5 +21,8 @@ public interface NurseMapper {
     @Mapping(target = "imageUrl", source = "user.imageUrl")
     @Mapping(target = "name", source = "user.name")
     NurseDTOForResponse entityToDto(final Nurse nurse);
+
+    @IterableMapping(qualifiedByName = "entityToDto")
+    List<NurseDTOForResponse> entitiesToDto(final List<Nurse> nurse);
 
 }

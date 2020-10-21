@@ -10,11 +10,13 @@ import br.com.pillwatcher.dpb.services.NurseService;
 import io.swagger.model.ErrorCodeEnum;
 import io.swagger.model.NurseDTOForCreate;
 import io.swagger.model.NurseDTOForResponse;
+import io.swagger.model.WrapperListRespose;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -64,4 +66,44 @@ public class NurseServiceImpl implements NurseService {
         return nurseMapper.entityToDto(byUserDocument.get());
     }
 
+
+    @Override
+    public NurseDTOForResponse update(final String cpf) {
+        log.info("NurseServiceImpl.update - Start - Input {}", cpf);
+
+        Optional<Nurse> byUserDocument = nurseRepository.findByUserDocument(cpf);
+
+        if (!byUserDocument.isPresent()) {
+            log.warn(ValidationConstraints.NURSE_NOT_FOUND, cpf);
+            throw new NurseException(ErrorCodeEnum.NOT_FOUND, ErrorMessages.NOT_FOUND,
+                    StringUtils.replace(ValidationConstraints.NURSE_NOT_FOUND, "{}", cpf));
+        }
+        return null;
+    }
+
+    @Override
+    public void delete(final String cpf) {
+        log.info("NurseServiceImpl.delete - Start - Input {}", cpf);
+
+        Optional<Nurse> byUserDocument = nurseRepository.findByUserDocument(cpf);
+
+        if (!byUserDocument.isPresent()) {
+            log.warn(ValidationConstraints.NURSE_NOT_FOUND, cpf);
+            throw new NurseException(ErrorCodeEnum.NOT_FOUND, ErrorMessages.NOT_FOUND,
+                    StringUtils.replace(ValidationConstraints.NURSE_NOT_FOUND, "{}", cpf));
+        }
+
+        nurseRepository.delete(byUserDocument.get());
+    }
+
+    @Override
+    public WrapperListRespose getAllNurses() {
+
+        log.info("NurseServiceImpl.getAllNurses");
+
+        List<Nurse> all = nurseRepository.findAll();
+        List<NurseDTOForResponse> nurseDTOForResponses = nurseMapper.entitiesToDto(all);
+
+        return new WrapperListRespose().data(nurseDTOForResponses);
+    }
 }

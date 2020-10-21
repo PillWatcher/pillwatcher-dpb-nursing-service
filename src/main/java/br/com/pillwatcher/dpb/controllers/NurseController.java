@@ -5,6 +5,8 @@ import io.swagger.annotations.Api;
 import io.swagger.api.NursesApi;
 import io.swagger.model.NurseDTOForCreate;
 import io.swagger.model.NurseDTOForResponse;
+import io.swagger.model.NurseDTOForUpdate;
+import io.swagger.model.WrapperListRespose;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -45,5 +47,28 @@ public class NurseController implements NursesApi {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(nurseService.get(cpf));
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteNurse(@PathVariable("cpf") final String cpf) {
+
+        log.debug("NurseController.deleteNurse - : {}", cpf);
+
+        nurseService.delete(cpf);
+
+        return ResponseEntity
+                .ok()
+                .build();
+    }
+
+    @Override
+    public ResponseEntity<WrapperListRespose> getAllNurse() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(nurseService.getAllNurses());
+    }
+
+    @Override
+    public ResponseEntity<NurseDTOForResponse> updateNurse(@RequestBody @Valid final NurseDTOForUpdate body, @PathVariable("cpf") final String cpf) {
+        return null;
     }
 }

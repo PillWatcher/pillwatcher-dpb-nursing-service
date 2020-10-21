@@ -29,7 +29,7 @@ paths:
             $ref: '#/definitions/NurseDTOForCreate'
       responses:
         '201':
-          description: 'Admin created'
+          description: 'Nurse created'
           schema:
             $ref: '#/definitions/NurseDTOForResponse'
         '400':
@@ -80,7 +80,7 @@ paths:
         '200':
           description: Ok
           schema:
-            $ref: '#/definitions/NurseDTOForAllRespose'
+            $ref: '#/definitions/WrapperListRespose'
         '400':
           description: Bad Request
           schema:
@@ -170,7 +170,7 @@ paths:
             $ref: '#/definitions/Fault'
           examples:
             application/json:
-              code: ADMIN_NOT_FOUND
+              code: NOT_FOUND
               message: "Entity not found"
               details: ["Nurse with cpf *** not found"]
         '500':
@@ -253,10 +253,10 @@ paths:
               details: ["Internal server error"]
     delete:
       summary: 'Delete a Nurse from given CPF'
-      description: 'Nurse a Admin from given CPF'
+      description: 'Nurse from given CPF'
       tags:
         - Nurse
-      operationId: "nurseAdmin"
+      operationId: "deleteNurse"
       produces:
         - "application/json"
       parameters:
@@ -301,9 +301,9 @@ paths:
             $ref: '#/definitions/Fault'
           examples:
             application/json:
-              code: ADMIN_NOT_FOUND
+              code: NOT_FOUND
               message: "Entity not found"
-              details: ["Admin with CPF *** not found"]
+              details: ["Nurse with CPF *** not found"]
         '500':
           description: Unexpected error
           schema:
@@ -314,10 +314,13 @@ paths:
               message: "Internal server error"
               details: ["Internal server error"]
 definitions:
-  NurseDTOForAllRespose:
-    type: array
-    items:
-      $ref: '#/definitions/NurseDTOForResponse'
+  WrapperListRespose:
+    properties:
+      data:
+        description: 'List nurse response'
+        type: array
+        items:
+          $ref: '#/definitions/NurseDTOForResponse'
   NurseDTOForUpdate:
     type: 'object'
     description: 'Structure used to create a Nurse on Pillwatcher'
@@ -378,7 +381,7 @@ definitions:
         type: string
   NurseDTOForResponse:
     type: 'object'
-    description: 'Structure used to return a Admin created on Pillwatcher'
+    description: 'Structure used to return a Nurse created on Pillwatcher'
     properties:
       id:
         description: 'Nurse id'
@@ -417,7 +420,7 @@ definitions:
         example: '992568745'
         type: string
       inclusionDate:
-        description: 'Admin creation date'
+        description: 'Nurse creation date'
         example: '2020-01-21T17:32:28Z'
         type: string
         format: 'date-time'
