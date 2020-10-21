@@ -69,6 +69,12 @@ public class NurseController implements NursesApi {
 
     @Override
     public ResponseEntity<NurseDTOForResponse> updateNurse(@RequestBody @Valid final NurseDTOForUpdate body, @PathVariable("cpf") final String cpf) {
-        return null;
-    }
+        log.debug("NurseController.updateNurse - Start - Input - Order: {} - {}", body, cpf);
+
+        final NurseDTOForResponse update = nurseService.update(body, cpf);
+
+        log.debug("NurseController.updateNurse - End - Input: {} - Output: {}", body, update);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(update);    }
 }
