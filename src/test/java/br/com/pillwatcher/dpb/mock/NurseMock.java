@@ -21,6 +21,34 @@ public class NurseMock {
 
     }
 
+    public static NurseDTOForCreate getNurseDTOForCreateAlreadyEmailMock() {
+        NurseDTOForCreate nurse = new NurseDTOForCreate();
+
+        nurse.setCoren("123000");
+        nurse.setDocument(CPF_FAKE);
+        nurse.setEmail("fernanda@gmail.com");
+        nurse.setFederativeUnit("DF");
+        nurse.setImageUrl("http://amazon.s3.com/uuid");
+        nurse.setName("Enfermeiro teste");
+        nurse.setPhone("42592101063");
+        return nurse;
+
+    }
+
+    public static NurseDTOForCreate getNurseDTOForCreateAlreadyDocumentMock() {
+        NurseDTOForCreate nurse = new NurseDTOForCreate();
+
+        nurse.setCoren("454545");
+        nurse.setDocument("85703682088");
+        nurse.setEmail("maira@gmail.com");
+        nurse.setFederativeUnit("DF");
+        nurse.setImageUrl("http://amazon.s3.com/uuid");
+        nurse.setName("Enfermeiro teste");
+        nurse.setPhone("42592101063");
+        return nurse;
+
+    }
+
     public static NurseDTOForUpdate getNurseDTOForUpdate() {
         NurseDTOForUpdate nurse = new NurseDTOForUpdate();
 

@@ -3,26 +3,22 @@ package br.com.pillwatcher.dpb.controllers;
 import br.com.pillwatcher.dpb.constants.UrlConstants;
 import br.com.pillwatcher.dpb.mock.NurseMock;
 import com.google.gson.Gson;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
-import static br.com.pillwatcher.dpb.mock.NurseMock.CPF_FAKE;
-import static net.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Sql("classpath:load.sql")
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class NurseControllerTest {
 
     @Autowired
@@ -38,6 +34,24 @@ public class NurseControllerTest {
     }
 
     @Test
+    public void createNurseAlreadyEmailExists() throws Exception {
+
+        this.mockMvc.perform(post(UrlConstants.URI_NURSES)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new Gson().toJson(NurseMock.getNurseDTOForCreateAlreadyEmailMock())))
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void createNurseAlreadyDocumentExists() throws Exception {
+
+        this.mockMvc.perform(post(UrlConstants.URI_NURSES)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new Gson().toJson(NurseMock.getNurseDTOForCreateAlreadyDocumentMock())))
+                .andExpect(status().isConflict());
+    }
+
+    @Test
     public void getNurse() throws Exception {
 
         this.mockMvc.perform(get(UrlConstants.URI_NURSES_CPF, "85703682088")
@@ -46,11 +60,27 @@ public class NurseControllerTest {
     }
 
     @Test
+    public void getNurseNotFound() throws Exception {
+
+        this.mockMvc.perform(get(UrlConstants.URI_NURSES_CPF, "11111111111")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void deleteNurse() throws Exception {
 
         this.mockMvc.perform(delete(UrlConstants.URI_NURSES_CPF, "92517931070")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteNurseNotFound() throws Exception {
+
+        this.mockMvc.perform(delete(UrlConstants.URI_NURSES_CPF, "11111111111")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -68,6 +98,15 @@ public class NurseControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(NurseMock.getNurseDTOForUpdate())))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void updateNurseNotFound() throws Exception {
+
+        this.mockMvc.perform(put(UrlConstants.URI_NURSES_CPF, "11111111111")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new Gson().toJson(NurseMock.getNurseDTOForUpdate())))
+                .andExpect(status().isNotFound());
     }
 
 }
