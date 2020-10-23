@@ -6,7 +6,8 @@ import io.swagger.api.NursesApi;
 import io.swagger.model.NurseDTOForCreate;
 import io.swagger.model.NurseDTOForResponse;
 import io.swagger.model.NurseDTOForUpdate;
-import io.swagger.model.WrapperListRespose;
+import io.swagger.model.WrapperListResponse;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,8 @@ public class NurseController implements NursesApi {
     @Override
     public ResponseEntity<NurseDTOForResponse> createNurse(@Valid @RequestBody final NurseDTOForCreate body) {
 
-        log.debug("NurseController.createNurse - : {}", body);
+        log.info("NurseController.createNurse - Input: {}", body);
+        log.debug("NurseController.createNurse - Input: {}", body);
 
         NurseDTOForResponse nurseDTOForResponse = nurseService.create(body);
 
@@ -43,38 +45,58 @@ public class NurseController implements NursesApi {
     @Override
     public ResponseEntity<NurseDTOForResponse> getNurse(@PathVariable("cpf") final String cpf) {
 
-        log.debug("NurseController.getNurse - : {}", cpf);
+        log.info("NurseController.getNurse - Input: {}", cpf);
+        log.debug("NurseController.getNurse - Input: {}", cpf);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(nurseService.get(cpf));
+        NurseDTOForResponse nurse = nurseService.get(cpf);
+
+        ResponseEntity<NurseDTOForResponse> response = ResponseEntity
+                .status(HttpStatus.OK)
+                .body(nurse);
+
+        log.debug("NurseController.deleteNurse - Input: {} - Output: {}", cpf, response);
+
+        return response;
     }
 
     @Override
     public ResponseEntity<Void> deleteNurse(@PathVariable("cpf") final String cpf) {
 
-        log.debug("NurseController.deleteNurse - : {}", cpf);
+        log.info("NurseController.deleteNurse - Input: {}", cpf);
+        log.debug("NurseController.deleteNurse - Input: {}", cpf);
 
         nurseService.delete(cpf);
 
-        return ResponseEntity
+        ResponseEntity<Void> response = ResponseEntity
                 .ok()
                 .build();
+
+        log.debug("NurseController.deleteNurse - Input: {} - Output: {}", cpf, response);
+
+        return response;
     }
 
     @Override
-    public ResponseEntity<WrapperListRespose> getAllNurse() {
+    public ResponseEntity<WrapperListResponse> getAllNurse() {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(nurseService.getAllNurses());
     }
 
     @Override
-    public ResponseEntity<NurseDTOForResponse> updateNurse(@RequestBody @Valid final NurseDTOForUpdate body, @PathVariable("cpf") final String cpf) {
+    public ResponseEntity<NurseDTOForResponse> updateNurse(@RequestBody @Valid final NurseDTOForUpdate body,
+                                                           @PathVariable("cpf") final String cpf) {
+
+        log.info("NurseController.updateNurse - Start - Input - Order: {} - {}", body, cpf);
         log.debug("NurseController.updateNurse - Start - Input - Order: {} - {}", body, cpf);
 
-        final NurseDTOForResponse update = nurseService.update(body, cpf);
+        final NurseDTOForResponse nurse = nurseService.update(body, cpf);
+        
+        ResponseEntity<NurseDTOForResponse> response = ResponseEntity
+                .status(HttpStatus.OK)
+                .body(nurse);
 
-        log.debug("NurseController.updateNurse - End - Input: {} - Output: {}", body, update);
+        log.debug("NurseController.updateNurse - End - Input: {} - Output: {} {}", body, nurse, response);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(update);    }
+        return response;
+    }
 }

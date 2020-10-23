@@ -36,13 +36,15 @@ public class NurseServiceImpl implements NurseService {
         if (byEmail.isPresent()) {
             log.warn(ValidationConstraints.NURSE_WITH_EMAIL_ALREADY_EXISTS, nurseDTOForCreate.getEmail());
             throw new NurseException(ErrorCodeEnum.NURSE_ALREADY_EXISTS, ErrorMessages.CONFLICT,
-                    StringUtils.replace(ValidationConstraints.NURSE_WITH_EMAIL_ALREADY_EXISTS, "{}", nurseDTOForCreate.getEmail()));
+                    StringUtils.replace(ValidationConstraints.NURSE_WITH_EMAIL_ALREADY_EXISTS, "{}",
+                            nurseDTOForCreate.getEmail()));
         }
 
         if (byUserDocument.isPresent()) {
             log.warn(ValidationConstraints.NURSE_WITH_DOCUMENT_ALREADY_EXISTS, nurseDTOForCreate.getEmail());
             throw new NurseException(ErrorCodeEnum.NURSE_ALREADY_EXISTS, ErrorMessages.CONFLICT,
-                    StringUtils.replace(ValidationConstraints.NURSE_WITH_DOCUMENT_ALREADY_EXISTS, "{}", nurseDTOForCreate.getDocument()));
+                    StringUtils.replace(ValidationConstraints.NURSE_WITH_DOCUMENT_ALREADY_EXISTS, "{}",
+                            nurseDTOForCreate.getDocument()));
         }
 
         Nurse nurse = nurseMapper.dtoToEntity(nurseDTOForCreate);
@@ -108,13 +110,13 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
-    public WrapperListRespose getAllNurses() {
+    public WrapperListResponse getAllNurses() {
 
         log.info("NurseServiceImpl.getAllNurses");
 
         List<Nurse> all = nurseRepository.findAll();
         List<NurseDTOForResponse> nurseDTOForResponses = nurseMapper.entitiesToDto(all);
 
-        return new WrapperListRespose().data(nurseDTOForResponses);
+        return new WrapperListResponse().data(nurseDTOForResponses);
     }
 }

@@ -3,18 +3,18 @@ package br.com.pillwatcher.dpb.services;
 import io.swagger.model.NurseDTOForCreate;
 import io.swagger.model.NurseDTOForResponse;
 import io.swagger.model.NurseDTOForUpdate;
-import io.swagger.model.WrapperListRespose;
+import io.swagger.model.WrapperListResponse;
 
 public interface NurseService {
 
-    NurseDTOForResponse create(final NurseDTOForCreate nurseDTOForCreate);
+    NurseDTOForResponse create(NurseDTOForCreate nurseDTOForCreate);
 
-    NurseDTOForResponse get(final String cpf);
+    NurseDTOForResponse get(String cpf);
 
-    NurseDTOForResponse update(final NurseDTOForUpdate nurseDTOForUpdate, final String cpf);
+    NurseDTOForResponse update(NurseDTOForUpdate nurseDTOForUpdate, String cpf);
 
-    void delete(final String cpf);
+    void delete(String cpf);
 
-    WrapperListRespose getAllNurses();
+    WrapperListResponse getAllNurses();
 
 }

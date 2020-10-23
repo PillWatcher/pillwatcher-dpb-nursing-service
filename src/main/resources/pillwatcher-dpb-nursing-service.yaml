@@ -80,7 +80,7 @@ paths:
         '200':
           description: Ok
           schema:
-            $ref: '#/definitions/WrapperListRespose'
+            $ref: '#/definitions/WrapperListResponse'
         '400':
           description: Bad Request
           schema:
@@ -314,7 +314,7 @@ paths:
               message: "Internal server error"
               details: ["Internal server error"]
 definitions:
-  WrapperListRespose:
+  WrapperListResponse:
     properties:
       data:
         description: 'List nurse response'
