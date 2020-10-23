@@ -97,7 +97,7 @@ public class NurseController implements NursesApi {
 
     @Override
     @GetMapping(value = URI_NURSES)
-    public ResponseEntity<WrapperListResponse> findAll() {
+    public ResponseEntity<WrapperListResponse> getAllNurse() {
 
         log.info("NurseController.findAll - Input - Order: {}", "");
         log.debug("NurseController.findAll - Input - Order: {}", "");
@@ -113,4 +113,5 @@ public class NurseController implements NursesApi {
 
         return response;
     }
+
 }
