@@ -11,24 +11,26 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static br.com.pillwatcher.dpb.constants.UrlConstants.URI_NURSES;
-import static br.com.pillwatcher.dpb.constants.UrlConstants.URI_NURSES_CPF;
+import static br.com.pillwatcher.dpb.constants.UrlConstants.BASE_URI;
 
 
 @Slf4j
 @RequiredArgsConstructor
 @RestController
 @Api(tags = "Nurse")
+@RequestMapping(BASE_URI)
 public class NurseController implements NursesApi {
 
     private final NurseServiceImpl nurseService;
 
     @Override
-    @PostMapping(value = URI_NURSES)
     public ResponseEntity<NurseDTOForResponse> createNurse(@Valid @RequestBody final NurseDTOForCreate body) {
 
         log.info("NurseController.createNurse - Input - Order: {}", body);
@@ -41,7 +43,6 @@ public class NurseController implements NursesApi {
     }
 
     @Override
-    @GetMapping(value = URI_NURSES_CPF)
     public ResponseEntity<NurseDTOForResponse> getNurse(@PathVariable("cpf") final String cpf) {
 
         log.info("NurseController.getNurse - Input - Order: {}", cpf);
@@ -59,7 +60,6 @@ public class NurseController implements NursesApi {
     }
 
     @Override
-    @PutMapping(value = URI_NURSES_CPF)
     public ResponseEntity<NurseDTOForResponse> updateNurse(@RequestBody @Valid final NurseDTOForUpdate body,
                                                            @PathVariable("cpf") final String cpf) {
 
@@ -78,7 +78,6 @@ public class NurseController implements NursesApi {
     }
 
     @Override
-    @DeleteMapping(value = URI_NURSES_CPF)
     public ResponseEntity<Void> deleteNurse(@PathVariable("cpf") final String cpf) {
 
         log.info("NurseController.deleteNurse - Input - Order: {}", cpf);
@@ -96,7 +95,6 @@ public class NurseController implements NursesApi {
     }
 
     @Override
-    @GetMapping(value = URI_NURSES)
     public ResponseEntity<WrapperListResponse> getAllNurse() {
 
         log.info("NurseController.findAll - Input - Order: {}", "");
