@@ -1,0 +1,453 @@
+swagger: "2.0"
+info:
+  description: "API for managing nurse functionalities"
+  version: "1.0.0"
+  title: "PillWatcher Nurse Service"
+  license:
+    name: "MIT 2.0"
+    url: "https://opensource.org/licenses/MIT"
+basePath: "/v1/pillwatcher"
+schemes:
+  - "http"
+tags:
+  - name: Nurse
+paths:
+  '/nurses':
+    post:
+      summary: "Add a new Nurse to Pillwatcher"
+      description: "Add a new Nurse to Pillwatcher"
+      tags:
+        - Nurse
+      operationId: "createNurse"
+      produces:
+        - "application/json"
+      parameters:
+        - name: nurseDtoForCreate
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/NurseDTOForCreate'
+      responses:
+        '201':
+          description: 'Nurse created'
+          schema:
+            $ref: '#/definitions/NurseDTOForResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: VALIDATION_ERROR
+              message: "Validation failed"
+              details: ["Bad Request"]
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: UNAUTHORIZED
+              message: "Unauthorized"
+              details: ["Unauthorized"]
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: FORBIDDEN
+              message: "Forbidden"
+              details: ["Forbidden"]
+        '500':
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: UNEXPECTED_ERROR
+              message: "Internal server error"
+              details: ["Internal server error"]
+    get:
+      summary: "Get all Nurses in Pillwatcher"
+      description: "Get all Nurses in Pillwatcher"
+      tags:
+        - Nurse
+      operationId: "getAllNurse"
+      produces:
+        - "application/json"
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/WrapperListResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: VALIDATION_ERROR
+              message: "Validation failed"
+              details: ["Bad Request"]
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: UNAUTHORIZED
+              message: "Unauthorized"
+              details: ["Unauthorized"]
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: FORBIDDEN
+              message: "Forbidden"
+              details: ["Forbidden"]
+        '500':
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: UNEXPECTED_ERROR
+              message: "Internal server error"
+              details: ["Internal server error"]
+  '/nurses/{cpf}':
+    get:
+      summary: "Get a Nurse in Pillwatcher"
+      description: "Get a Nurse in Pillwatcher"
+      tags:
+        - Nurse
+      operationId: "getNurse"
+      produces:
+        - "application/json"
+      parameters:
+        - name: cpf
+          description: 'Nurse Official Document (CPF)'
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/NurseDTOForResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: VALIDATION_ERROR
+              message: "Validation failed"
+              details: ["Bad Request"]
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: UNAUTHORIZED
+              message: "Unauthorized"
+              details: ["Unauthorized"]
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: FORBIDDEN
+              message: "Forbidden"
+              details: ["Forbidden"]
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: NOT_FOUND
+              message: "Entity not found"
+              details: ["Nurse with cpf *** not found"]
+        '500':
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: UNEXPECTED_ERROR
+              message: "Internal server error"
+              details: ["Internal server error"]
+    put:
+      summary: 'Update a Nurse info on Pillwatcher'
+      description: 'Update a Nurse info on Pillwatcher'
+      tags:
+        - Nurse
+      operationId: "updateNurse"
+      produces:
+        - "application/json"
+      parameters:
+        - name: nurseDtoForUpdate
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/NurseDTOForUpdate'
+        - name: cpf
+          description: 'Nurse Official Document (CPF)'
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 'Nurse Object'
+          schema:
+            $ref: '#/definitions/NurseDTOForResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: VALIDATION_ERROR
+              message: "Validation failed"
+              details: ["Bad Request"]
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: UNAUTHORIZED
+              message: "Unauthorized"
+              details: ["Unauthorized"]
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: FORBIDDEN
+              message: "Forbidden"
+              details: ["Forbidden"]
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: NOT_FOUND
+              message: "Entity not found"
+              details: ["Nurse with CPF *** not found"]
+        '500':
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: UNEXPECTED_ERROR
+              message: "Internal server error"
+              details: ["Internal server error"]
+    delete:
+      summary: 'Delete a Nurse from given CPF'
+      description: 'Nurse from given CPF'
+      tags:
+        - Nurse
+      operationId: "deleteNurse"
+      produces:
+        - "application/json"
+      parameters:
+        - name: cpf
+          description: 'Nurse Official Document (CPF)'
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: VALIDATION_ERROR
+              message: "Validation failed"
+              details: ["Constraint violation"]
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: UNAUTHORIZED
+              message: "Unauthorized"
+              details: ["Unauthorized"]
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: FORBIDDEN
+              message: "Forbidden"
+              details: ["Forbidden"]
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: NOT_FOUND
+              message: "Entity not found"
+              details: ["Nurse with CPF *** not found"]
+        '500':
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Fault'
+          examples:
+            application/json:
+              code: UNEXPECTED_ERROR
+              message: "Internal server error"
+              details: ["Internal server error"]
+definitions:
+  WrapperListResponse:
+    properties:
+      data:
+        description: 'List nurse response'
+        type: array
+        items:
+          $ref: '#/definitions/NurseDTOForResponse'
+  NurseDTOForUpdate:
+    type: 'object'
+    description: 'Structure used to create a Nurse on Pillwatcher'
+    properties:
+      name:
+        description: 'Nurse name'
+        example: 'Logan Warden'
+        type: string
+        minLength: 3
+        maxLength: 120
+      imageUrl:
+        description: 'Image Url from S3'
+        example: 'https://s3.com/image_from_user.jpg'
+        type: string
+      email:
+        description: 'Nurse Email'
+        example: 'logan.warden@email.com'
+        type: string
+      phone:
+        description: 'Nurse Phone'
+        example: '992568745'
+        type: string
+  NurseDTOForCreate:
+    type: 'object'
+    description: 'Structure used to create a Nurse on Pillwatcher'
+    properties:
+      name:
+        description: 'Nurse name'
+        example: 'Logan Warden'
+        type: string
+        minLength: 3
+        maxLength: 120
+      document:
+        description: 'Nurse Official Document (CPF)'
+        example: '12345678910'
+        type: string
+        minLength: 11
+        maxLength: 11
+      imageUrl:
+        description: 'Image Url from S3'
+        example: 'https://s3.com/image_from_user.jpg'
+        type: string
+      email:
+        description: 'Nurse Email'
+        example: 'logan.warden@email.com'
+        type: string
+      coren:
+        description: 'Nurse Coren'
+        example: '123456'
+        type: string
+      federativeUnit:
+        description: 'FU Coren'
+        example: 'DF'
+        type: string
+      phone:
+        description: 'Nurse Phone'
+        example: '992568745'
+        type: string
+  NurseDTOForResponse:
+    type: 'object'
+    description: 'Structure used to return a Nurse created on Pillwatcher'
+    properties:
+      id:
+        description: 'Nurse id'
+        example: 1245
+        type: number
+      name:
+        description: 'Nurse name'
+        example: 'Logan Warden'
+        type: string
+        minLength: 3
+        maxLength: 120
+      document:
+        description: 'Nurse Official Document (CPF)'
+        example: '12345678910'
+        type: string
+        minLength: 11
+        maxLength: 11
+      imageUrl:
+        description: 'Image Url from S3'
+        example: 'https://s3.com/image_from_user.jpg'
+        type: string
+      email:
+        description: 'Nurse Email'
+        example: 'logan.warden@email.com'
+        type: string
+      coren:
+        description: 'Nurse Coren'
+        example: '123456'
+        type: string
+      federativeUnit:
+        description: 'FU Coren'
+        example: 'DF'
+        type: string
+      phone:
+        description: 'Nurse Phone'
+        example: '992568745'
+        type: string
+      inclusionDate:
+        description: 'Nurse creation date'
+        example: '2020-01-21T17:32:28Z'
+        type: string
+        format: 'date-time'
+  ErrorCodeEnum:
+    type: string
+    enum:
+      - ACCESS_DENIED
+      - NURSE_ALREADY_EXISTS
+      - INVALID_PARAMETER
+      - TOO_MANY_REQUESTS
+      - UNEXPECTED_ERROR
+      - VALIDATION_ERROR
+      - UNAUTHORIZED
+      - NOT_FOUND
+  Fault:
+    title: Fault
+    type: object
+    properties:
+      code:
+        $ref: '#/definitions/ErrorCodeEnum'
+      message:
+        description: Error description
+        example: Internal Server Error
+        type: string
+      details:
+        description: Error detailed description
+        type: array
+        items:
+          type: string
+        example: [Internal Server Error - An error has ocurred calling partner API.]
