@@ -1,5 +1,7 @@
 package br.com.pillwatcher.dpb.controllers;
 
+import br.com.pillwatcher.dpb.services.MqttService;
+import br.com.pillwatcher.dpb.services.NurseService;
 import br.com.pillwatcher.dpb.services.impl.NurseServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.api.NursesApi;
@@ -28,7 +30,7 @@ import static br.com.pillwatcher.dpb.constants.UrlConstants.BASE_URI;
 @RequestMapping(BASE_URI)
 public class NurseController implements NursesApi {
 
-    private final NurseServiceImpl nurseService;
+    private final NurseService nurseService;
 
     @Override
     public ResponseEntity<NurseDTOForResponse> createNurse(@Valid @RequestBody final NurseDTOForCreate body) {
