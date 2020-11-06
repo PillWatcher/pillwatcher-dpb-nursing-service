@@ -6,6 +6,7 @@ import br.com.pillwatcher.dpb.entities.Nurse;
 import br.com.pillwatcher.dpb.exceptions.NurseException;
 import br.com.pillwatcher.dpb.mappers.NurseMapper;
 import br.com.pillwatcher.dpb.repositories.NurseRepository;
+import br.com.pillwatcher.dpb.services.MqttService;
 import br.com.pillwatcher.dpb.services.NurseService;
 import io.swagger.model.*;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class NurseServiceImpl implements NurseService {
+
+    private final MqttService mqttService;
 
     private final NurseRepository nurseRepository;
     private final NurseMapper nurseMapper;
@@ -48,6 +51,10 @@ public class NurseServiceImpl implements NurseService {
         }
 
         Nurse nurse = nurseMapper.dtoToEntity(nurseDTOForCreate);
+
+        mqttService.setupMqtt(nurse, "create-nurse", new NurseException(ErrorCodeEnum.INVALID_PARAMETER,
+                ErrorMessages.BAD_REQUEST, "Fail to send Nurse Request to MQTT Broker"));
+
         return nurseMapper.entityToDto(nurseRepository.save(nurse));
     }
 
