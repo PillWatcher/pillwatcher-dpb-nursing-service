@@ -19,12 +19,12 @@ public abstract class Auditable {
 
     @CreatedDate
     @CreationTimestamp
-    @Column(name = "INCLUSION_DATE", columnDefinition = "TIMESTAMP")
+    @Column(name = "INCLUSION_DATE", columnDefinition = "DATE")
     protected LocalDateTime inclusionDate;
 
     @LastModifiedDate
     @UpdateTimestamp
-    @Column(name = "UPDATE_DATE", columnDefinition = "TIMESTAMP")
+    @Column(name = "UPDATE_DATE", columnDefinition = "DATE")
     protected LocalDateTime updateDate;
 
 }
